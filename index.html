@@ -12,14 +12,35 @@
     <title>Common Form</title>
   </head>
   <body>
-    <form id="commonForm" action="/" method="post">
+    <form id="commonForm" action="/" method="post" novalidate data-js-form>
       <p class="field">
         <label class="field__label" for="login">Login</label>
-        <input class="field__control" id="login" name="login" />
+        <input
+          class="field__control"
+          id="login"
+          name="login"
+          required
+          minlength="3"
+          maxlength="12"
+          aria-errormessage="login-errors"
+        />
+        <span class="field__errors" id="login-errors" data-js-form-field-errors></span>
       </p>
       <p class="field">
         <label class="field__label" for="password">Password</label>
-        <input class="field__control" id="password" name="password" type="password" />
+        <input
+          class="field__control"
+          id="password"
+          name="password"
+          type="password"
+          required
+          minlength="8"
+          maxlength="16"
+          pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}"
+          title="The password must be between 8 and 16 characters long and include at least one number, one lowercase letter, and one uppercase letter"
+          aria-errormessage="password-errors"
+        />
+        <span class="field__errors" id="password-errors" data-js-form-field-errors></span>
       </p>
       <p class="field">
         <label class="field__label" for="about">About</label>
@@ -28,15 +49,39 @@
       <fieldset class="radios">
         <legend class="radios__legend">Your gender</legend>
 
-        <input class="radios__control" id="male" name="gender" type="radio" />
+        <input
+          class="radios__control"
+          id="male"
+          name="gender"
+          type="radio"
+          required
+          aria-errormessage="gender-errors"
+        />
         <label class="radios__label" for="male">Male</label>
 
-        <input class="radios__control" id="female" name="gender" type="radio" />
+        <input
+          class="radios__control"
+          id="female"
+          name="gender"
+          type="radio"
+          required
+          aria-errormessage="gender-errors"
+        />
         <label class="radios__label" for="female">Женский</label>
+
+        <span class="field__errors" id="gender-errors" data-js-form-field-errors></span>
       </fieldset>
       <div class="field checkbox">
-        <input class="checkbox__control" id="agreement" name="agreement" type="checkbox" />
+        <input
+          class="checkbox__control"
+          id="agreement"
+          name="agreement"
+          type="checkbox"
+          required
+          aria-errormessage="agreement-errors"
+        />
         <label class="field__label checkbox__label" for="agreement">Agree</label>
+        <span class="field__errors" id="agreement-errors" data-js-form-field-errors></span>
       </div>
       <div class="field city-selection">
         <label class="field__label" for="city">Your city:</label>

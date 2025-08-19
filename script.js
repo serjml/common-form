@@ -1,12 +1,35 @@
-const formElement = document.querySelector('form');
+class FormsValidation {
+  selectors = {
+    form: '[data-js-form]',
+    firldErrors: '[data-js-form-field-errors]',
+  };
 
-formElement.addEventListener('submit', (event) => {
-  event.preventDefault();
+  constructor() {
+    this.bindEvents();
+  }
 
-  const formData = new FormData(formElement);
+  validateField(fieldControlElement) {}
 
-  console.log('Name value:', formData.get('example'));
-  formData.delete('example');
+  onBlur(event) {
+    const { target } = event;
 
-  console.log(Object.fromEntries(formData));
-});
+    const isFormField = target.closest(this.selectors.form);
+    const isRequired = target.required;
+
+    if (isFormField && isRequired) {
+      validateField(target);
+    }
+  }
+
+  bindEvents() {
+    document.addEventListener(
+      'blur',
+      (event) => {
+        this.onBlur(event);
+      },
+      { capture: true },
+    );
+  }
+}
+
+new FormsValidation();

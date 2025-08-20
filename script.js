@@ -36,6 +36,7 @@ class FormsValidation {
     });
 
     this.manageErrors(fieldControlElement, errorMessages);
+    fieldControlElement.ariaInvalid = errorMessages.length > 0;
   }
 
   onBlur(event) {

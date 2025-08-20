@@ -15,6 +15,16 @@ class FormsValidation {
     this.bindEvents();
   }
 
+  manageErrors(fieldControlElement, errorMessages) {
+    const fieldErrorsElement = fieldControlElement.parentElement.querySelector(
+      this.selectors.firldErrors,
+    );
+
+    fieldErrorsElement.innerHTML = errorMessages
+      .map((message) => `<span class="field__error">${message}</span>`)
+      .join('');
+  }
+
   validateField(fieldControlElement) {
     const errors = fieldControlElement.validity;
     const errorMessages = [];
@@ -24,6 +34,8 @@ class FormsValidation {
         errorMessages.push(getErrorMessage(fieldControlElement));
       }
     });
+
+    this.manageErrors(fieldControlElement, errorMessages);
   }
 
   onBlur(event) {
@@ -33,7 +45,7 @@ class FormsValidation {
     const isRequired = target.required;
 
     if (isFormField && isRequired) {
-      validateField(target);
+      this.validateField(target);
     }
   }
 

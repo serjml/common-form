@@ -36,7 +36,18 @@ class FormsValidation {
     });
 
     this.manageErrors(fieldControlElement, errorMessages);
-    fieldControlElement.ariaInvalid = errorMessages.length > 0;
+
+    const isValid = errorMessages.length === 0;
+
+    fieldControlElement.ariaInvalid = !isValid;
+
+    return isValid;
+  }
+
+  getFormData(formElement) {
+    const formData = new FormData(formElement);
+
+    console.log(Object.fromEntries(formData));
   }
 
   onBlur(event) {
@@ -61,6 +72,38 @@ class FormsValidation {
     }
   }
 
+  onSubmit(event) {
+    const isFormElement = event.target.matches(this.selectors.form);
+
+    if (!isFormElement) {
+      return;
+    }
+
+    const requiredControlElements = [...event.target.elements].filter(({ required }) => required);
+    let isFormValid = true;
+    let firstInvalidFieldControl = null;
+
+    requiredControlElements.forEach((element) => {
+      const isFieldValid = this.validateField(element);
+
+      if (!isFieldValid) {
+        isFormValid = false;
+
+        if (!firstInvalidFieldControl) {
+          firstInvalidFieldControl = element;
+        }
+      }
+    });
+
+    if (!isFormValid) {
+      event.preventDefault();
+      firstInvalidFieldControl.focus();
+    } else {
+      event.preventDefault();
+      this.getFormData(event.target);
+    }
+  }
+
   bindEvents() {
     document.addEventListener(
       'blur',
@@ -70,6 +113,7 @@ class FormsValidation {
       { capture: true },
     );
     document.addEventListener('change', (event) => this.onChange(event));
+    document.addEventListener('submit', (event) => this.onSubmit(event));
   }
 }
 

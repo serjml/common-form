@@ -50,6 +50,17 @@ class FormsValidation {
     }
   }
 
+  onChange(event) {
+    const { target } = event;
+
+    const isRequired = target.required;
+    const isToggleType = ['radio', 'checkbox'].includes(target.type);
+
+    if (isToggleType && isRequired) {
+      this.validateField(target);
+    }
+  }
+
   bindEvents() {
     document.addEventListener(
       'blur',
@@ -58,6 +69,7 @@ class FormsValidation {
       },
       { capture: true },
     );
+    document.addEventListener('change', (event) => this.onChange(event));
   }
 }
 
